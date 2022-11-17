@@ -1,18 +1,30 @@
+from functools import wraps
+
 import requests
 from requests.api import get, options, head, post, put, patch, delete
 import click
 import json
+import time
 
-
+def timeit(func):
+    @wraps(func)
+    def timeit_wrapper(*args, **kwargs):
+        start_time = time.perf_counter()
+        result = func(*args, **kwargs)
+        end_time = time.perf_counter()
+        total_time = end_time - start_time
+        print(f'Function {func.__name__}{args} {kwargs} Took {total_time: .4f} seconds')
+        return result
+    return timeit_wrapper
 http_methods = (get, options, head, post, put, patch, delete)
 
-
+@timeit
 def open_file(filename=input('Enter filename: ')):
     with open(filename, 'r', encoding='utf-8') as file:
         urls = [line.strip() for line in file]
         return urls
 
-
+@timeit
 def check_urls(list_urls=None):
     if list_urls is None:
         list_urls = open_file('urls.txt')
@@ -27,6 +39,7 @@ def check_urls(list_urls=None):
 
 
 @click.command()
+@timeit
 def check_methods_urls(new_list_urls=None, list_methods=http_methods):
     """
     This script checks url methods dict with methods and status codes
