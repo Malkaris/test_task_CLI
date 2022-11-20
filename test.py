@@ -1,7 +1,7 @@
 from functools import wraps
 
 import requests
-from requests.api import get, options, head, post, put, patch, delete
+# from requests.api import get, options, head, post, put, patch, delete
 import click
 import json
 import time
@@ -10,6 +10,12 @@ import time
 def timeit(func):
     @wraps(func)
     def timeit_wrapper(*args, **kwargs):
+        '''
+        decorator for checking programm's working time
+        :param args:
+        :param kwargs:
+        :return: time
+        '''
         start_time = time.perf_counter()
         result = func(*args, **kwargs)
         end_time = time.perf_counter()
@@ -20,7 +26,7 @@ def timeit(func):
     return timeit_wrapper
 
 
-http_methods = (get, options, head, post, put, patch, delete)
+# http_methods = (get, options, head, post, put, patch, delete)
 
 
 def ask_for_input():
@@ -54,8 +60,6 @@ def ask_urls():
     return list_urls
 
 
-# print(ask_for_input())
-
 @timeit
 def check_urls():
     list_urls = ask_for_input()
@@ -69,24 +73,24 @@ def check_urls():
     return valid_urls
 
 
-@click.command()
-@timeit
-def check_methods_urls(list_methods=http_methods):
-    """
-    This script checks url methods dict with methods and status codes
-    """
-    new_list_urls = check_urls()
-    print('In process...')
-    data = {
-        str(urll): {
-            method.__name__.upper():
-                method(urll).status_code for method in list_methods if method(urll).status_code != 405}
-        for urll in new_list_urls}
-    with open('result.json', "w") as result:
-        json.dump(data, result, indent=4)
-    with open('result.json', "r") as read:
-        result_data = json.load(read)
-    print(result_data)
+# @click.command()
+# @timeit
+# def check_methods_urls(list_methods=http_methods):
+#     """
+#     This script checks url methods dict with methods and status codes
+#     """
+#     new_list_urls = check_urls()
+#     print('In process...')
+#     data = {
+#         str(urll): {
+#             method.__name__.upper():
+#                 method(urll).status_code for method in list_methods if method(urll).status_code != 405}
+#         for urll in new_list_urls}
+#     with open('result.json', "w") as result:
+#         json.dump(data, result, indent=4)
+#     with open('result.json', "r") as read:
+#         result_data = json.load(read)
+#     print(result_data)
 
 @click.command()
 @timeit
