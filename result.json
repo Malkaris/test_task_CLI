@@ -5,29 +5,29 @@
     },
     "https://facebook.com": {
         "GET": 200,
-        "OPTIONS": 200,
-        "HEAD": 301,
         "POST": 200,
         "PUT": 200,
+        "DELETE": 200,
         "PATCH": 200,
-        "DELETE": 200
+        "OPTIONS": 200,
+        "HEAD": 301
     },
     "https://vk.com": {
         "GET": 200,
-        "OPTIONS": 418,
-        "HEAD": 418,
         "POST": 200,
         "PUT": 418,
+        "DELETE": 418,
         "PATCH": 418,
-        "DELETE": 418
+        "OPTIONS": 418,
+        "HEAD": 418
     },
     "https://github.com": {
         "GET": 200,
-        "OPTIONS": 404,
-        "HEAD": 200,
         "POST": 404,
         "PUT": 404,
+        "DELETE": 404,
         "PATCH": 404,
-        "DELETE": 404
+        "OPTIONS": 404,
+        "HEAD": 200
     }
 }
